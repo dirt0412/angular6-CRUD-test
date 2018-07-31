@@ -19,8 +19,8 @@ export class AppComponent implements OnInit {
   editedProduct: any = {};
 
   constructor(private _productService: ProductService) {
-    this.newProduct = new Product();
-    console.log(this.newProduct);
+    // this.newProduct = new Product();
+    // console.log(this.newProduct);
    }
 
   ngOnInit() {
