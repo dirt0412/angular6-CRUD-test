@@ -83,19 +83,20 @@
               </div>
               <div class="col-md-7">
                 <p>
-                  <input type="text" name="price" [(ngModel)]="newProduct.price" />
+                  <input myNumberOnly type="text" name="price" [(ngModel)]="newProduct.price" />
                 </p>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
+                <div class="col-md-6">
+                  </div>
+              <div class="col-md-3">
                 <button type="button" class="btn btn-primary" (click)="saveProduct(newProduct)">Submit</button>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <button type="button" class="btn btn-warning" (click)="cancelNewProduct()">Cancel</button>
               </div>
-            </div>      
-      
+            </div>    
       </form>
 
       <form *ngIf="editProductForm" class="modal-style">
@@ -140,16 +141,18 @@
           </div>
           <div class="col-md-7">
             <p>
-              <input type="text" name="price" [(ngModel)]="editedProduct.price" />
+              <input myNumberOnly type="text" name="price" [(ngModel)]="editedProduct.price" />
             </p>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+            <div class="col-md-6">
+            </div>
+          <div class="col-md-3">
             <button type="button" class="btn btn-primary" (click)="updateProduct(editedProduct)">Submit</button>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <button type="button" class="btn btn-warning" (click)="cancelEdits()">Cancel</button>
           </div>
         </div>

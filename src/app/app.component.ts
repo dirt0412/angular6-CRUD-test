@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   constructor(private _productService: ProductService) {
     // this.newProduct = new Product();
     // console.log(this.newProduct);
-   }
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   showEditProductForm(product: Product) {
-    if(!product) {
+    if (!product) {
       this.productForm = false;
       return;
     }
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
   showAddProductForm() {
     // resets form if edited product
-    if(this.products.length) {
+    if (this.products.length) {
       this.newProduct = new Product();
     }
     this.productForm = true;
@@ -50,9 +50,12 @@ export class AppComponent implements OnInit {
   }
 
   saveProduct(product: Product) {
-    if(this.isNewForm) {
-      // add a new product
-      this._productService.addProduct(product);
+    if (this.isNewForm) {
+      if (product.id != undefined && product.name != undefined && product.description != undefined && product.price != undefined)
+        // add a new product
+        this._productService.addProduct(product);
+      else
+        alert('Please fill all data.');
     }
     this.productForm = false;
   }
@@ -77,5 +80,5 @@ export class AppComponent implements OnInit {
     this.editProductForm = false;
   }
 
-  
+
 }
