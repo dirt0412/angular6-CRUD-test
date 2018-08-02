@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   editedProduct: any = {};
   private getProductsSubscribe: Subscription;
   private retValEditedProduct: Subscription;
+  private retValDeleteProduct: Subscription;
 
   constructor(private _productService: ProductService) {
 
@@ -80,8 +81,18 @@ export class AppComponent implements OnInit {
   }
 
   removeProduct(product: ProductModel) {
-    this._productService.deleteProduct(product);
-    //this.getProducts();
+    this.retValDeleteProduct = this._productService.deleteProduct(product) .subscribe(
+      product => {
+        //console.log("DELETE call successful product returned in body"+ product);
+        this.getProducts();
+      },
+      response => {
+        //console.log("DELETE call in error", response);
+      },
+      () => {
+        //console.log("The DELETE observable is now completed.");
+      }
+      );  
   }
 
   updateProduct() {
@@ -119,6 +130,7 @@ export class AppComponent implements OnInit {
   ngOnDestroy() {
     this.getProductsSubscribe.unsubscribe();
     this.retValEditedProduct.unsubscribe();
+    this.retValDeleteProduct.unsubscribe();
   }
 
 

@@ -46,14 +46,13 @@ export class ProductService {
   }
 
   //DELETE http://localhost/api/product/id
-  deleteProduct(product: ProductModel) {
-    this.http.delete(
-      environment.urlApiRootEndpoint + 'api/product/' + product.id,
-      { headers: this.headers }
-    )
-      .subscribe(response => {
+  deleteProduct(product: ProductModel): Observable<Response> {
+  return this.http.delete<Response>(
+    environment.urlApiRootEndpoint + 'api/product/' + product.id,
+    { headers: this.headers }
+  )
+    
 
-      });
-  }
+}
 
 }
