@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products">
+          <tr *ngFor="let product of productsArray">
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
@@ -42,18 +42,6 @@
      
       <form *ngIf="productForm" class="modal-style">
         <h3>Add New Product</h3>
-      
-            <div class="row">
-              <div class="col-md-5">
-                <p>ID:
-                </p>
-              </div>
-              <div class="col-md-7">
-                <p>
-                  <input type="text" name="id" [(ngModel)]="newProduct.id" />
-                </p>
-              </div>
-            </div>
             <div class="row">
               <div class="col-md-5">
                 <p>Name:
@@ -108,7 +96,7 @@
           </div>
           <div class="col-md-7">
             <p>
-              <input type="text" name="id" [(ngModel)]="editedProduct.id" />
+              <input readonly type="text" name="id" [(ngModel)]="editedProduct.id" />
             </p>
           </div>
         </div>

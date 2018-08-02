@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../app/services/products/product.service';
-import { Product } from '../app/models/productModel';
+import { ProductModel } from '../app/models/productModel';
 import { clone } from 'lodash';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,27 +12,32 @@ import { clone } from 'lodash';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  products: Product[];
+  productsArray: ProductModel[] = [];
   productForm: boolean = false;
   editProductForm: boolean = false;
   isNewForm: boolean;
-  newProduct: Product;
+  newProduct: ProductModel;
   editedProduct: any = {};
+  private getProductsSubscribe: Subscription;
 
   constructor(private _productService: ProductService) {
-    // this.newProduct = new Product();
-    // console.log(this.newProduct);
+
   }
 
   ngOnInit() {
     this.getProducts();
   }
 
-  getProducts() {
-    this.products = this._productService.getProductsFromData();
+  getProducts(): void {
+    this.productsArray = [];
+    this.getProductsSubscribe = this._productService.getProductsFromData().subscribe((ProductModel) => {
+      ProductModel.forEach(element => {
+        this.productsArray.push(element);
+      });
+    });
   }
 
-  showEditProductForm(product: Product) {
+  showEditProductForm(product: ProductModel) {
     if (!product) {
       this.productForm = false;
       return;
@@ -42,42 +48,52 @@ export class AppComponent implements OnInit {
 
   showAddProductForm() {
     // resets form if edited product
-    if (this.products.length) {
-      this.newProduct = new Product();
+    if (this.productsArray.length) {
+      this.newProduct = new ProductModel();
     }
     this.productForm = true;
     this.isNewForm = true;
   }
 
-  saveProduct(product: Product) {
+  saveProduct(product: ProductModel) {
     if (this.isNewForm) {
-      if (product.id != undefined && product.name != undefined && product.description != undefined && product.price != undefined)
+      if (product.name != undefined && product.description != undefined && product.price != undefined) {
         // add a new product
-        this._productService.addProduct(product);
+        this._productService.addProduct(product)
+        this.getProducts();
+      }
       else
         alert('Please fill all data.');
     }
     this.productForm = false;
   }
 
-  removeProduct(product: Product) {
+  removeProduct(product: ProductModel) {
     this._productService.deleteProduct(product);
+    this.getProducts();
   }
 
   updateProduct() {
-    this._productService.updateProduct(this.editedProduct);
-    this.editProductForm = false;
-    this.editedProduct = {};
+    if (this.editedProduct.name != undefined && this.editedProduct.description != undefined && this.editedProduct.price != undefined) {
+      this._productService.updateProduct(this.editedProduct);
+      this.editProductForm = false;
+      this.editedProduct = {};
+      this.getProducts();
+    }
   }
 
   cancelNewProduct() {
-    this.newProduct = new Product();
+    this.newProduct = new ProductModel();
     this.productForm = false;
   }
 
   cancelEdits() {
     this.editedProduct = {};
     this.editProductForm = false;
+  }
+
+  ngOnDestroy() {
+    this.getProductsSubscribe.unsubscribe();
   }
 
 

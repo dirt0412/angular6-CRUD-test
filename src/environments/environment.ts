@@ -10,7 +10,9 @@ configMSSQL : {
   password: 'password',
   server: 'localhost',
   database: 'DBName'
-}
+},
+
+urpApiRootEndpoint : "http://localhost:3000/"
 
 };
 
