@@ -27,25 +27,25 @@ export class ProductService {
     );
   }
 
-    //POST http://localhost/api/product
-  addProduct(product: ProductModel): Observable<ProductModel>{
-   return this.http.post<ProductModel>(
+  //POST http://localhost/api/product
+  addProduct(product: ProductModel): Observable<ProductModel> {
+    return this.http.post<ProductModel>(
       environment.urlApiRootEndpoint + 'api/product',
       JSON.stringify({ product: product }),
       { headers: this.headers }
-    )     
+    )
   }
 
-    //PUT http://localhost/api/product/id
-  updateProduct(product: ProductModel): Observable<ProductModel>{   
-      return this.http.put<ProductModel>(
-        environment.urlApiRootEndpoint + 'api/product/' + product.id,
-        JSON.stringify({ product: product }),
-        { headers: this.headers }
-      )     
+  //PUT http://localhost/api/product/id
+  updateProduct(product: ProductModel): Observable<ProductModel> {
+    return this.http.put<ProductModel>(
+      environment.urlApiRootEndpoint + 'api/product/' + product.id,
+      JSON.stringify({ product: product }),
+      { headers: this.headers }
+    )
   }
 
-    //DELETE http://localhost/api/product/id
+  //DELETE http://localhost/api/product/id
   deleteProduct(product: ProductModel) {
     this.http.delete(
       environment.urlApiRootEndpoint + 'api/product/' + product.id,

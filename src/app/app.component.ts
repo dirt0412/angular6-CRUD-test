@@ -57,25 +57,25 @@ export class AppComponent implements OnInit {
   }
 
   saveProduct(product: ProductModel) {
-      if (this.isNewForm  && product.name != undefined && product.description != undefined && product.price != undefined) {
-        // add a new product
-        let retVal = this._productService.addProduct(product);
-        retVal.subscribe(
-          product => {
-            //console.log("POST call successful product returned in body"+ product);
-            this.getProducts();
-          },
-          response => {
-            //console.log("POST call in error", response);
-          },
-          () => {
-            //console.log("The POST observable is now completed.");
-          }
-          );
-      }
-      else
-        alert('Please fill all data.');
-        
+    if (this.isNewForm && product.name != undefined && product.description != undefined && product.price != undefined) {
+      // add a new product
+      let retVal = this._productService.addProduct(product);
+      retVal.subscribe(
+        product => {
+          //console.log("POST call successful product returned in body"+ product);
+          this.getProducts();
+        },
+        response => {
+          //console.log("POST call in error", response);
+        },
+        () => {
+          //console.log("The POST observable is now completed.");
+        }
+      );
+    }
+    else
+      alert('Please fill all data.');
+
     this.productForm = false;
   }
 
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
     if (this.editedProduct.name != undefined && this.editedProduct.description != undefined && this.editedProduct.price != undefined) {
 
       this.retValEditedProduct = this._productService.updateProduct(this.editedProduct)
-      .subscribe(
+        .subscribe(
         product => {
           //console.log("PUT call successful product returned in body"+ product);
           this.getProducts();
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
           //console.log("The PUT observable is now completed.");
         }
         );
-     
+
       this.editProductForm = false;
       this.editedProduct = {};
     }
