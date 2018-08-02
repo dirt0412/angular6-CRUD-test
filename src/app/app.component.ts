@@ -57,27 +57,25 @@ export class AppComponent implements OnInit {
   }
 
   saveProduct(product: ProductModel) {
-   // if (this.isNewForm) {
       if (this.isNewForm  && product.name != undefined && product.description != undefined && product.price != undefined) {
         // add a new product
         let retVal = this._productService.addProduct(product);
-        console.log(retVal.subscribe(t => t.name).closed);
         retVal.subscribe(
           product => {
-            console.log("PUT call successful product returned in body"+ product);
+            //console.log("POST call successful product returned in body"+ product);
             this.getProducts();
           },
           response => {
-            console.log("PUT call in error", response);
+            //console.log("POST call in error", response);
           },
           () => {
-            console.log("The PUT observable is now completed.");
+            //console.log("The POST observable is now completed.");
           }
           );
       }
       else
         alert('Please fill all data.');
-    //}
+        
     this.productForm = false;
   }
 
@@ -92,20 +90,19 @@ export class AppComponent implements OnInit {
       this.retValEditedProduct = this._productService.updateProduct(this.editedProduct)
       .subscribe(
         product => {
-          console.log("PUT call successful product returned in body"+ product);
+          //console.log("PUT call successful product returned in body"+ product);
           this.getProducts();
         },
         response => {
-          console.log("PUT call in error", response);
+          //console.log("PUT call in error", response);
         },
         () => {
-          console.log("The PUT observable is now completed.");
+          //console.log("The PUT observable is now completed.");
         }
         );
      
       this.editProductForm = false;
       this.editedProduct = {};
-      //this.getProducts();
     }
   }
 

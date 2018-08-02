@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
  selector: '[myNumberOnly]'
 })
 export class NumberOnlyDirective {
- private regex: RegExp = new RegExp('[-+]?[0-9]*\.?[0-9]+');
+ private regex: RegExp = new RegExp('^[0-9]+\\.?[0-9]*$');
  private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', '-' ];
 
 constructor(private el: ElementRef) {
