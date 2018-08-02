@@ -21,45 +21,55 @@ export class ProductService {
 
   //https://localhost/api/product
   getProductsFromData(): Observable<ProductModel[]> {
-    return this.http.get<ProductModel[]>(`${environment.urpApiRootEndpoint}api/product`, {
+    return this.http.get<ProductModel[]>(`${environment.urlApiRootEndpoint}api/product`, {
       headers: this.headers
     }
     );
   }
 
-  addProduct(product: ProductModel) {
-    //this.pItems.push(product);
-    console.log(product);
-    this.http.post(
-      environment.urpApiRootEndpoint + 'api/product',
+  addProduct(product: ProductModel): Observable<ProductModel>{
+   return this.http.post<ProductModel>(
+      environment.urlApiRootEndpoint + 'api/product',
       JSON.stringify({ product: product }),
       { headers: this.headers }
-    )
-      .subscribe(response => {
-
-      });
+    )     
   }
 
+  updateProduct(product: ProductModel): Observable<ProductModel>{
+    console.log("http PUT");   
+    
+      return this.http.put<ProductModel>(
+        environment.urlApiRootEndpoint + 'api/product/' + product.id,
+        JSON.stringify({ product: product }),
+        { headers: this.headers }
+      )
+      // .pipe(
+      //   //catchError(this.handleError('updateHero', hero))
+      // );
 
-  updateProduct(product: ProductModel) {
-    this.http.put(
-      environment.urpApiRootEndpoint + 'api/product/'+product.id,
-      JSON.stringify({ product: product }),
-      { headers: this.headers }
-    )
-      .subscribe(response => {
 
-      });
+        // .subscribe(
+        // val => {
+        //   console.log("PUT call successful value returned in body",
+        //     val);
+        // },
+        // response => {
+        //   console.log("PUT call in error", response);
+        // },
+        // () => {
+        //   console.log("The PUT observable is now completed.");
+        // }
+        // );  
   }
 
   deleteProduct(product: ProductModel) {
     this.http.delete(
-      environment.urpApiRootEndpoint + 'api/product/'+product.id,
-      {headers:  this.headers}
+      environment.urlApiRootEndpoint + 'api/product/' + product.id,
+      { headers: this.headers }
     )
-    .subscribe(response => {
-      
-    });
+      .subscribe(response => {
+
+      });
   }
 
 }

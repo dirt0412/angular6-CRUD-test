@@ -12,7 +12,7 @@ configMSSQL : {
   database: 'DBName'
 },
 
-urpApiRootEndpoint : "http://localhost:3000/"
+urlApiRootEndpoint : "http://localhost:3000/"
 
 };
 

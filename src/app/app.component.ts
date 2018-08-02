@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   newProduct: ProductModel;
   editedProduct: any = {};
   private getProductsSubscribe: Subscription;
+  private retValEditedProduct: Subscription;
 
   constructor(private _productService: ProductService) {
 
@@ -56,29 +57,55 @@ export class AppComponent implements OnInit {
   }
 
   saveProduct(product: ProductModel) {
-    if (this.isNewForm) {
-      if (product.name != undefined && product.description != undefined && product.price != undefined) {
+   // if (this.isNewForm) {
+      if (this.isNewForm  && product.name != undefined && product.description != undefined && product.price != undefined) {
         // add a new product
-        this._productService.addProduct(product)
-        this.getProducts();
+        let retVal = this._productService.addProduct(product);
+        console.log(retVal.subscribe(t => t.name).closed);
+        retVal.subscribe(
+          product => {
+            console.log("PUT call successful product returned in body"+ product);
+            this.getProducts();
+          },
+          response => {
+            console.log("PUT call in error", response);
+          },
+          () => {
+            console.log("The PUT observable is now completed.");
+          }
+          );
       }
       else
         alert('Please fill all data.');
-    }
+    //}
     this.productForm = false;
   }
 
   removeProduct(product: ProductModel) {
     this._productService.deleteProduct(product);
-    this.getProducts();
+    //this.getProducts();
   }
 
   updateProduct() {
     if (this.editedProduct.name != undefined && this.editedProduct.description != undefined && this.editedProduct.price != undefined) {
-      this._productService.updateProduct(this.editedProduct);
+
+      this.retValEditedProduct = this._productService.updateProduct(this.editedProduct)
+      .subscribe(
+        product => {
+          console.log("PUT call successful product returned in body"+ product);
+          this.getProducts();
+        },
+        response => {
+          console.log("PUT call in error", response);
+        },
+        () => {
+          console.log("The PUT observable is now completed.");
+        }
+        );
+     
       this.editProductForm = false;
       this.editedProduct = {};
-      this.getProducts();
+      //this.getProducts();
     }
   }
 
@@ -94,6 +121,7 @@ export class AppComponent implements OnInit {
 
   ngOnDestroy() {
     this.getProductsSubscribe.unsubscribe();
+    this.retValEditedProduct.unsubscribe();
   }
 
 
